@@ -31,11 +31,14 @@ header {
 
 h1 {
     font-size: 108px;
+    background-color: var(--color-secondary);
+    margin-bottom: 24px;
 }
 
 p {
     font-size: 40px;
     font-weight: 600;
+    background-color: var(--color-secondary)
 }
 
 </style>

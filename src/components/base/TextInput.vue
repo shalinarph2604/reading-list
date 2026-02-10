@@ -68,6 +68,8 @@
 
 .input {
     padding: 8px 10px;
+    width: 100%;
+    height: 48px;
     border: 1px solid #CCCCCC;
     border-radius: 6px;
     font-size: 14px;

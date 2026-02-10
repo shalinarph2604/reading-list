@@ -1,5 +1,7 @@
 <!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <script lang="ts">
+import type { PropType } from 'vue';
+
     export default {
         name: 'BaseButton',
 
@@ -7,8 +9,14 @@
 
         props: {
             type: {
-                type: String,
+                type: String as PropType<'button' | 'submit' | 'reset'>,
                 default: 'button',
+                validator: (value: string) => ['button', 'submit', 'reset'].includes(value),
+            },
+
+            label: {
+                type: String,
+                default: '',
             },
 
             variant: {
@@ -50,20 +58,22 @@
 
 <template>
     <button
-        :type="button"
+        :type="type"
         :class="buttonClass"
         :disabled="disabled || isLoading"
         @click="handleClick"
     >
         <span v-if="isLoading">Loading...</span>
-        <slot v-else />
+        <slot v-else>{{ label }}</slot>
     </button>
 </template>
 
 <style scoped>
     .base-button {
-        padding: 10px 16px;
-        border-radius: 6px;
+        padding: 12px 24px;
+        max-height: max-content;
+        font-size: 14px;
+        border-radius: 12px;
         font-weight: 600;
         cursor: pointer;
         border: none;

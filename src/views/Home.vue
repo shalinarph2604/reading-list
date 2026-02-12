@@ -1,44 +1,71 @@
 <script lang="ts">
+    import { defineComponent } from 'vue';
+
     import AppHeader from '@/components/common/AppHeader.vue';
     import BookForm from '@/components/common/BookForm.vue';
+    import BookList from '@/components/common/BookList.vue';
 
-    export default {
+    interface Book {
+        id: string
+        title: string
+        author: string
+        status: 'unread' | 'completed'
+    }
+
+    export default defineComponent ({
         name: 'HomePage',
 
         components: {
             AppHeader,
-            BookForm    
+            BookForm,
+            BookList    
         },
 
         data() {
             return {
-                books: [] as { 
-                    title: string;
-                    author: string;
-                    status: string; 
-                }[]
+                books: [] as Book[]
             }
         },
 
         methods: {
-            newBook(book: { 
+            addBook(payload: { 
                 title: string;
                 author: string;
-                status: string;       
             }) {
-                this.books.push(book)
+                const newBook: Book = {
+                    id: crypto.randomUUID(),
+                    title: payload.title,
+                    author: payload.author,
+                    status: 'unread'
+                }
+                this.books.push(newBook)
                 console.log('New Book Added:', this.books);
-            }
-        }
+            },
 
-    }
+            toggleStatus(bookId: string) {
+                const book = this.books.find(b => b.id === bookId)
+                if (book) {
+                    book.status = book.status === 'unread' ? 'completed' : 'unread'
+                }
+            },
+
+            deleteBook(bookId: string) {
+                this.books = this.books.filter(b => b.id !== bookId)
+            }
+
+        }
+    })
 </script>
 
 <template>
     <AppHeader 
         title="Reading List"
-        description="We help you track your daily reading"
+        description="We help you to track your daily reading"
     />
-    <BookForm @submit="newBook" />
-    :
+    <BookForm @submit="addBook" />
+    <BookList 
+        :books="books"
+        @toggle-status="toggleStatus"
+        @delete-book="deleteBook"
+    />
 </template>

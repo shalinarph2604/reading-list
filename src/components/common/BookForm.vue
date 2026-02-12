@@ -1,8 +1,10 @@
 <script lang="ts">
+import { defineComponent } from 'vue';
+
 import BaseButton from '../base/BaseButton.vue';
 import TextInput from '../base/TextInput.vue';
 
-    export default {
+    export default defineComponent ({
         name: 'BookForm',
 
         components: {TextInput, BaseButton},
@@ -18,22 +20,23 @@ import TextInput from '../base/TextInput.vue';
 
         methods: {
             handleSubmit() {
-                if (!this.title || !this.author) return
+                if (!this.title.trim() || !this.author.trim()) return
 
                 const addBook = {
-                    title: this.title,
-                    author: this.author,
+                    id: crypto.randomUUID(),
+                    title: this.title.trim(),
+                    author: this.author.trim(),
                     status: 'unread'
                 }
 
                 this.$emit('submit', addBook)
 
+                // reset form
                 this.title=''
                 this.author=''
             }
         }
-
-    }
+    })
 
 </script>
 
@@ -74,11 +77,10 @@ import TextInput from '../base/TextInput.vue';
         flex-direction: row;
         gap: 16px;
         justify-content: space-between;
-        padding: 20px 40px;
+        padding: 20px 40px 0;
     }
 
     .inputs {
-        height: 200px;
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 16px;
@@ -86,7 +88,7 @@ import TextInput from '../base/TextInput.vue';
     }
 
     .button-wrapper {
-        height: 200px;
+        height: 116px;
         padding-top: 20px;
     }
 

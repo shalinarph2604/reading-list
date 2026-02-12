@@ -1,8 +1,9 @@
 <!-- eslint-disable @typescript-eslint/no-explicit-any -->
 <script lang="ts">
-import type { PropType } from 'vue';
+    import type { PropType } from 'vue';
+    import { defineComponent } from 'vue';
 
-    export default {
+    export default defineComponent ({
         name: 'BaseButton',
 
         emits: ['click'],
@@ -11,7 +12,8 @@ import type { PropType } from 'vue';
             type: {
                 type: String as PropType<'button' | 'submit' | 'reset'>,
                 default: 'button',
-                validator: (value: string) => ['button', 'submit', 'reset'].includes(value),
+                validator: (value: string) => 
+                    ['button', 'submit', 'reset'].includes(value),
             },
 
             label: {
@@ -41,7 +43,8 @@ import type { PropType } from 'vue';
                     'base-button',
                     `base-button--${this.variant}`,
                     {
-                        'base-button--disabled': this.disabled || this.isLoading
+                        'base-button--disabled': 
+                        this.disabled || this.isLoading
                     }
                 ]
             }
@@ -53,7 +56,7 @@ import type { PropType } from 'vue';
                 this.$emit('click', event)
             }
         }
-    }
+    })
 </script>
 
 <template>
@@ -71,6 +74,7 @@ import type { PropType } from 'vue';
 <style scoped>
     .base-button {
         padding: 12px 24px;
+        min-width: min-content;
         max-height: max-content;
         font-size: 14px;
         border-radius: 12px;
@@ -82,13 +86,14 @@ import type { PropType } from 'vue';
 
     .base-button--primary {
         background-color: var(--color-text);
-        color: var(--color-primary);
+        color: var(--color-bg);
+        border: 2px solid var(--color-text);
     }
 
     .base-button--secondary {
-        background-color: var(--color-primary);
+        background-color: var(--color-bg);
         color: var(--color-text);
-        border: var(--color-text);
+        border: 2px solid var(--color-text);
     }
 
     .base-button--circle {
@@ -96,8 +101,11 @@ import type { PropType } from 'vue';
         color: var(--color-text);
         border: var(--color-text);
         border-radius: 50%;
-        height: 16px;
-        width: 16px;
+        height: 46px;
+        width: 46px;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .base-button--disabled {

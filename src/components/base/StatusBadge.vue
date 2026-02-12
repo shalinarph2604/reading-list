@@ -1,30 +1,31 @@
 <script lang="ts">
-import type { PropType } from 'vue';
+    import type { PropType } from 'vue';
+    import { defineComponent } from 'vue';
 
-export default {
-    name: 'StatusBadge',
+    export default defineComponent ({
+        name: 'StatusBadge',
 
-    props: {
-        status: {
-            type: String as PropType<'unread' | 'completed'>,
-            required: true,
+        props: {
+            status: {
+                type: String as PropType<'unread' | 'completed'>,
+                required: true,
+            }
+        },
+
+        computed: {
+            label() {
+                return this.status === 'completed' ?
+                'Completed' : 'Unread'
+            },
+
+            badgeClass() {
+                return [
+                    'status-badge',
+                    `status-badge--${this.status}`
+                ]
+            },
         }
-    },
-
-    computed: {
-        label() {
-            return this.status === 'completed' ?
-             'Completed' : 'Unread'
-        },
-
-        badgeClass() {
-            return [
-                'status-badge',
-                `status-badge--${this.status}`
-            ]
-        },
-    }
-}
+    })
 </script>
 
 <template>
@@ -46,7 +47,7 @@ export default {
 }
 
 .status-badge--unread {
-    background-color: var(--color-primary);
+    background-color: var(--color-bg);
     border: 1px solid var(--color-secondary);
     color: var(--color-secondary);
 }

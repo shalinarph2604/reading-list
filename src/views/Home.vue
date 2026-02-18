@@ -1,5 +1,6 @@
 <script lang="ts">
     import { defineComponent } from 'vue';
+    import { getBooks } from '@/services/api';
 
     import AppHeader from '@/components/common/AppHeader.vue';
     import BookForm from '@/components/common/BookForm.vue';
@@ -23,7 +24,8 @@
 
         data() {
             return {
-                books: [] as Book[]
+                books: [] as Book[],
+                loading: true,
             }
         },
 
@@ -53,6 +55,18 @@
                 this.books = this.books.filter(b => b.id !== bookId)
             }
 
+        },
+
+        
+        async mounted() {
+            try {
+            const response = await getBooks()
+            console.log(response)
+            } catch (err) {
+            console.error(err)
+            } finally {
+            this.loading = false
+            }
         }
     })
 </script>

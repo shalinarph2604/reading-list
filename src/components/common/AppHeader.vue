@@ -1,20 +1,41 @@
 <script lang="ts">
     import { defineComponent } from 'vue';
+    import BaseButton from '../base/BaseButton.vue';
 
     export default defineComponent ({
         name: 'AppHeader',
 
+        components: {
+            BaseButton
+        },
+
+        emits: ['browse'],
+
         props: {
             title: String,
-            description: String
-        }
+            description: String,
+            browse: String
+        },
+
+        methods: {
+            browseHandler() {
+                this.$router.push({ name: 'BookRecommendations' })
+            }
+        },
     })
 </script>
 
 <template>
     <header>
-        <h1>{{ title }}</h1>
-        <p>{{ description }}</p>
+        <h1 class="header-text">{{ title }}</h1>
+        <p class="header-text" id="header-p1">{{ description }}</p>
+        <div class="header-button">
+            <BaseButton 
+                variant="primary" 
+                label="Browse our book recommendations"
+                @click="browseHandler"
+            />
+        </div>
     </header>
 </template>
 
@@ -33,14 +54,31 @@ header {
 
 h1 {
     font-size: 108px;
-    background-color: var(--color-secondary);
     margin-bottom: 24px;
 }
 
-p {
+.header-text {
+    background-color: var(--color-secondary);
+}
+
+.header-button {
+    margin-top: 48px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+#header-p1 {
     font-size: 40px;
     font-weight: 600;
-    background-color: var(--color-secondary)
+}
+
+#header-p2 {
+    color: var(--color-bg);
+    font-size: 24px;
+    font-weight: 600;
+    margin: 24px 0;
+    text-align: center;
 }
 
 </style>

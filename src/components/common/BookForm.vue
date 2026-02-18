@@ -65,7 +65,6 @@ import TextInput from '../base/TextInput.vue';
                 variant="primary"
                 label="Add Book"
                 @click="handleSubmit"
-                
             />
         </div>
     </form>

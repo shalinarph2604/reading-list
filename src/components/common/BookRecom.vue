@@ -2,42 +2,52 @@
     import { defineComponent } from 'vue';
     import { getBooks } from '@/services/api';
 
+    import BookRecomCard from './BookRecomCard.vue';
+
+    interface BookRecomContainer {
+        key: string
+        title: string
+        author?: string[]
+        first_publish_year?: number
+    }
+
     export default defineComponent ({
-        name: 'BookRecommendation',
+        name: 'BookRecomContainer',
+
+        components: {
+            BookRecomCard
+        },
 
         data() {
             return {
-                books:[] as Array<{
-                    id: string;
-                    title: string;
-                    author: string;
-                    rating: number;
-                    img_url: string;
-                }>,
-                isLoading: false,
-                error: null as string | null,
+                works: [] as BookRecomContainer[]
             }
         },
 
         async mounted() {
             try {
-                this.isLoading = true;
-                this.books = await getBooks();
+                const response = await getBooks()
+                this.works = response
+
             } catch (error) {
-                this.error = (error instanceof Error ? error.message : String(error)) || 
-                'Failed to fetch book recommendations';
-            } finally {
-                this.isLoading = false;
+                console.error(error)
             }
         }
     })
 </script>
 
 <template>
-    <div>
-        <div v-for="book in books" :key="book.id">
-            <img :src="book.img_url" :alt="book.title" />
-        </div>
-        <div></div>
+    <div class="container">
+        <BookRecomCard
+            v-for="work in works"
+            :key="work.key"
+            :works="work"
+        />
     </div>
 </template>
+
+<style scoped>
+    .container {
+        margin-top: 20px;
+    }
+</style>
